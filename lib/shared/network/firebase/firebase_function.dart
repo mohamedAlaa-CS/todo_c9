@@ -19,7 +19,8 @@ static CollectionReference<TaskModel> getCollection(){
   taskModel.id = doc.id;
   doc.set(taskModel);
 }
-static Future<QuerySnapshot<TaskModel>> getData(){
- return getCollection().get();
+static Stream<QuerySnapshot<TaskModel>> getData(){
+ return getCollection() .orderBy('dateTime')
+                .snapshots();
 }
 }
