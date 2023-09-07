@@ -39,9 +39,7 @@ class TasksView extends StatelessWidget {
           locale: 'en_ISO',
         ),
         StreamBuilder(
-            stream: FirebaseFunction.getCollection()
-                .orderBy('dateTime')
-                .snapshots(),
+            stream: FirebaseFunction.getData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
