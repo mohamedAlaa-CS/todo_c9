@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class DefalutTextField extends StatelessWidget {
-  const DefalutTextField({
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
     super.key,
     required this.textController,
-    required this.validator,
-    required this.hitText,
+     this.validator,
+     this.hitText,
     this.maxLines = 1,
   });
   final TextEditingController textController;
   final String? Function(String?)? validator;
-  final String hitText;
+  final String? hitText;
   final int? maxLines;
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/core/my_theme.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
+import 'package:todo_app/views/update/update_view.dart';
 
 import '../../../models/task_model.dart';
 
@@ -27,7 +28,8 @@ class TaskItem extends StatelessWidget {
                   bottomLeft: Radius.circular(16)),
               flex: 2,
               onPressed: (context) {
-                print('edit');
+                Navigator.of(context)
+                    .pushNamed(UpdateView.routeName, arguments: taskModel);
               },
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
@@ -77,10 +79,15 @@ class TaskItem extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    taskModel.title!,
-                    style: GoogleFonts.poppins(
-                        fontSize: 18, color: Apptheme.primaryColor),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.7,
+                    child: Text(
+                      taskModel.title!,
+                      style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          color: Apptheme.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.8,

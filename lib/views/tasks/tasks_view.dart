@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/core/my_theme.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
+import '../../shared/components/app_bar.dart';
 import 'widget/task_item.dart';
 
 class TasksView extends StatelessWidget {
@@ -10,21 +11,9 @@ class TasksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(top: 40, left: 20),
-          width: mediaQuery.width,
-          height: mediaQuery.height * 0.18,
-          color: Apptheme.primaryColor,
-          child: Text(
-            'To Do List',
-            style: GoogleFonts.poppins(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
+      const CustomAppBar(title: 'To Do List'),
         CalendarTimeline(
           initialDate: DateTime.now(),
           firstDate: DateTime.now().subtract(const Duration(days: 30)),

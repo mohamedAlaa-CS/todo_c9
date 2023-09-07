@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/my_theme.dart';
+import 'package:todo_app/views/update/update_view.dart';
 
 import 'layout/home_layout.dart';
 import 'views/splash/splash_view.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashView.routeName,
       routes: {
         SplashView.routeName: (context) => SplashView(),
-        HomeLayoutView.routeName: (context) => HomeLayoutView()
+        HomeLayoutView.routeName: (context) => HomeLayoutView(),
+        UpdateView.routeName :(context)=> UpdateView()
       },
     );
   }

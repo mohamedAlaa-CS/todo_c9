@@ -36,7 +36,7 @@ class BototmSheetBody extends StatelessWidget {
                   fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            DefalutTextField(
+            CustomTextField(
                 textController: titleController,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -58,7 +58,7 @@ class BototmSheetBody extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            DefalutTextField(
+            CustomTextField(
               textController: descriptionController,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
