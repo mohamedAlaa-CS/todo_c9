@@ -15,7 +15,7 @@ class BototmSheetBody extends StatelessWidget {
     var formKey = GlobalKey<FormState>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 13),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 13, bottom: 20),
       child: Form(
         key: formKey,
         child: Column(
@@ -101,15 +101,14 @@ class BototmSheetBody extends StatelessWidget {
                       dateTime: DateTime.now(),
                     );
                     FirebaseFunction.addTask(taskModel);
+                    Navigator.of(context).pop();
                     print('done ya man');
                   }
-                  Navigator.of(context).pop();
                 },
                 child: const Text(
                   'Add task',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 )),
-            const SizedBox(height: 10)
           ],
         ),
       ),
