@@ -23,4 +23,8 @@ static Stream<QuerySnapshot<TaskModel>> getData(){
  return getCollection() .orderBy('dateTime')
                 .snapshots();
 }
+
+static Future<void> deletTask(String? id){
+ return getCollection().doc(id).delete();
+}
 }
