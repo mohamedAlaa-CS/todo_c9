@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/core/my_theme.dart';
+import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/views/update/update_view.dart';
 
 import 'layout/home_layout.dart';
@@ -14,7 +16,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider<MyProvider>(
+    create: (BuildContext context) => MyProvider(),
+    child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +30,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: Apptheme.lightTheme,
-      themeMode: ThemeMode.light,
+      darkTheme: Apptheme.darkTheme,
+      themeMode: ThemeMode.dark,
       initialRoute: SplashView.routeName,
       routes: {
         SplashView.routeName: (context) => SplashView(),

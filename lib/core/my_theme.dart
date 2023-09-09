@@ -6,7 +6,7 @@ class Apptheme
   static ThemeData lightTheme = ThemeData(
     primaryColor:primaryColor,
     scaffoldBackgroundColor:const Color(0xFFDFECDB),
-    appBarTheme: AppBarTheme(
+    appBarTheme:const AppBarTheme(
       elevation: 0,
       color: primaryColor,
       centerTitle: false,
@@ -15,7 +15,26 @@ class Apptheme
         fontWeight: FontWeight.bold
       ),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme:const BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedIconTheme: IconThemeData(
+        color: primaryColor,
+        size: 30
+      ),
+      unselectedIconTheme: IconThemeData(
+        color: Colors.grey,
+        size: 30,
+      ),
+
+    )
+  );
+  static ThemeData darkTheme = ThemeData(
+    scaffoldBackgroundColor:const  Color(0xff060E1E),
+    bottomAppBarTheme:const BottomAppBarTheme(color: Color(0xff141922)),
+    bottomNavigationBarTheme:const BottomNavigationBarThemeData(
       backgroundColor: Colors.transparent,
       elevation: 0,
       showSelectedLabels: false,
