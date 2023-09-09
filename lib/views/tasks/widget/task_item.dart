@@ -12,6 +12,7 @@ class TaskItem extends StatelessWidget {
   final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context).size;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -58,7 +59,7 @@ class TaskItem extends StatelessWidget {
             ]),
         child: Container(
           //margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          padding:  EdgeInsets.symmetric(horizontal: mediaQuery.width/25, vertical: mediaQuery.width/24),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Colors.white,
@@ -67,30 +68,30 @@ class TaskItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 80,
-                width: 4,
+                height: mediaQuery.height/10,
+                width: mediaQuery.width/100,
                 decoration: BoxDecoration(
                     color: Apptheme.primaryColor,
                     borderRadius: BorderRadius.circular(4)),
               ),
-              const SizedBox(
-                width: 20,
+               SizedBox(
+                width:mediaQuery.width/25,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.7,
+                    width: MediaQuery.of(context).size.width / 1.64,
                     child: Text(
                       taskModel.title!,
                       style: GoogleFonts.poppins(
-                          fontSize: 20,
+                          fontSize: 17,
                           color: Apptheme.primaryColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.8,
+                    width: MediaQuery.of(context).size.width / 1.7,
                     child: Text(
                       taskModel.description!,
                       style: GoogleFonts.poppins(
@@ -120,7 +121,7 @@ class TaskItem extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding:  EdgeInsets.symmetric(horizontal: mediaQuery.width/24),
                 decoration: BoxDecoration(
                   color: Apptheme.primaryColor,
                   borderRadius: BorderRadius.circular(12.0),

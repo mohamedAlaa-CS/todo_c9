@@ -50,6 +50,8 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
 
   bottomSheet() {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      isScrollControlled: true,
         context: context, builder: (context) => BototmSheetBody());
   }
 }

@@ -1,6 +1,5 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/core/my_theme.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import '../../shared/components/app_bar.dart';
@@ -39,6 +38,7 @@ class TasksView extends StatelessWidget {
                   snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
               return Expanded(
                   child: ListView.builder(
+                    physics:const BouncingScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10),
                       itemBuilder: (context, index) =>
                           TaskItem(taskModel: tasks[index]),
