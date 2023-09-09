@@ -13,6 +13,7 @@ class UpdateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
+    var theme = Theme.of(context);
     var data = ModalRoute.of(context)!.settings.arguments as TaskModel;
     titleController.text = data.title!;
     descriptionController.text = data.description!;
@@ -28,7 +29,7 @@ class UpdateView extends StatelessWidget {
                   left: mediaQuery.width / 13,
                   right: mediaQuery.width / 13),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: theme.canvasColor,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(

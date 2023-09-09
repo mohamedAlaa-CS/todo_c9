@@ -15,13 +15,15 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return TextFormField(
+      style: theme.textTheme.bodySmall,
       controller: textController,
       validator: validator,
       maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hitText,
-        hintStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        hintStyle: theme.textTheme.bodySmall,
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(

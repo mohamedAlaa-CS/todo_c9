@@ -118,6 +118,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                     'Add task',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )),
+                  SizedBox(height: mediaQuery.height/50,)
             ],
           ),
         ),

@@ -9,17 +9,18 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
+    var theme = Theme.of(context);
 
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.only(top: 40, left: 20),
       width: mediaQuery.width,
-      height: mediaQuery.height * 0.18,
+      height: mediaQuery.height * 0.19,
       color: Apptheme.primaryColor,
       child: Text(
         title,
         style: GoogleFonts.poppins(
-            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+            fontSize: 22, fontWeight: FontWeight.bold, color:theme.canvasColor ),
       ),
     );
   }

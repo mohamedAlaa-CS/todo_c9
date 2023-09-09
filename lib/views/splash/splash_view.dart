@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/layout/home_layout.dart';
 
 class SplashView extends StatefulWidget {
@@ -18,10 +20,10 @@ Timer(Duration(seconds: 2), () {Navigator.of(context).pushReplacementNamed(HomeL
   }
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
+    var provider = Provider.of<MyProvider>(context);
     return Scaffold(
       //backgroundColor: Colors.transparent,
-      body: Image.asset('assets/images/splash_light.png',height:mediaQuery.height ,width: mediaQuery.width,fit: BoxFit.fill,),
+      body: Image.asset(provider.themeMode == ThemeMode.light ?'assets/images/splash_light.png': 'assets/images/splash_dark.png',fit: BoxFit.fill,),
     );
   }
 }

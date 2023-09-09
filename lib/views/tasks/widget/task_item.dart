@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/core/my_theme.dart';
+import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import 'package:todo_app/views/update/update_view.dart';
 
@@ -13,9 +15,12 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
+    var theme = Theme.of(context);
+    var provider = Provider.of<MyProvider>(context);
     return Card(
+      color: theme.canvasColor,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 8,
       child: Slidable(
         key: const ValueKey(0),
@@ -62,7 +67,7 @@ class TaskItem extends StatelessWidget {
           padding:  EdgeInsets.symmetric(horizontal: mediaQuery.width/25, vertical: mediaQuery.width/24),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Colors.white,
+            color: theme.canvasColor,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,14 +99,13 @@ class TaskItem extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 1.7,
                     child: Text(
                       taskModel.description!,
-                      style: GoogleFonts.poppins(
-                        fontSize: 17,
-                      ),
+                      style: theme.textTheme.bodyLarge,
                     ),
                   ),
                   Row(
                     children: [
-                      const Icon(
+                       Icon(
+                      color:provider.themeMode ==ThemeMode.light ? Colors.black :Colors.white  ,
                         Icons.timer_outlined,
                         size: 20,
                       ),
@@ -110,10 +114,7 @@ class TaskItem extends StatelessWidget {
                       ),
                       Text(
                         '10:30 am',
-                        style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12,
-                            color: Colors.black),
+                        style:theme.textTheme.bodyMedium
                       ),
                     ],
                   ),
