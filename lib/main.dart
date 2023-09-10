@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/core/my_theme.dart';
+import 'package:todo_app/core/style/my_theme.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
+import 'package:todo_app/views/login/login_view.dart';
+import 'package:todo_app/views/signup/signup.dart';
 import 'package:todo_app/views/update/update_view.dart';
 
 import 'layout/home_layout.dart';
@@ -37,7 +39,9 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashView.routeName: (context) => SplashView(),
         HomeLayoutView.routeName: (context) => HomeLayoutView(),
-        UpdateView.routeName :(context)=> UpdateView()
+        UpdateView.routeName :(context)=> UpdateView(),
+        LoginView.routeName :(context) => LoginView(),
+        SignupView.routeName :(context) => SignupView()
       },
     );
   }

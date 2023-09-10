@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/layout/home_layout.dart';
+import 'package:todo_app/views/login/login_view.dart';
 
 class SplashView extends StatefulWidget {
   static const String routeName = 'splash_view';
@@ -16,7 +17,7 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
-Timer(Duration(seconds: 2), () {Navigator.of(context).pushReplacementNamed(HomeLayoutView.routeName); }) ;  super.initState();
+Timer(Duration(seconds: 2), () {Navigator.of(context).pushReplacementNamed(LoginView.routeName); }) ;  super.initState();
   }
   @override
   Widget build(BuildContext context) {

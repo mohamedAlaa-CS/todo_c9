@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/my_theme.dart';
+import 'package:todo_app/core/style/my_theme.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/shared/components/app_bar.dart';
 import 'package:todo_app/shared/components/default_text_field.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 
+// ignore: must_be_immutable
 class UpdateView extends StatelessWidget {
   static const String routeName = 'update_View';
   UpdateView({super.key});

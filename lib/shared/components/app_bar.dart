@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/my_theme.dart';
+import '../../core/style/my_theme.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({super.key, required this.title});

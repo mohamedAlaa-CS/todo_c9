@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/core/my_theme.dart';
+import 'package:todo_app/core/style/my_theme.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import 'package:todo_app/views/update/update_view.dart';
