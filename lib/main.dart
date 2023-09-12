@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/style/my_theme.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
-import 'package:todo_app/views/login/login_view.dart';
-import 'package:todo_app/views/signup/signup.dart';
-import 'package:todo_app/views/update/update_view.dart';
+import 'package:todo_app/screens/login/login_view.dart';
+import 'package:todo_app/screens/signup/signup.dart';
+import 'package:todo_app/screens/update/update_view.dart';
 
 import 'layout/home_layout.dart';
-import 'views/splash/splash_view.dart';
+import 'screens/splash/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

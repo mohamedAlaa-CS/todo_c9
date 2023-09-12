@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/views/signup/signup.dart';
+import 'package:todo_app/layout/home_layout.dart';
+import 'package:todo_app/shared/network/firebase/firebase_function.dart';
+import 'package:todo_app/screens/signup/signup.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatelessWidget {
@@ -87,7 +89,9 @@ class LoginView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
                     onPressed: (){
                       if(formKey.currentState!.validate()){
-                   print('login');
+                          FirebaseFunction.sigIn(emailController.text, passwordController.text,(){
+                            Navigator.pushNamedAndRemoveUntil(context, HomeLayoutView.routeName, (route) => false);
+                          },context);                  
                       }
                     },
                      child:const Text('Login',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
@@ -100,7 +104,7 @@ class LoginView extends StatelessWidget {
                     onPressed: (){
                       Navigator.of(context).pushNamed(SignupView.routeName);
                     },
-                     child:const Text('SINGUP',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),))
+                     child:const Text('create account',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),))
                  ],)
               ],
             ),

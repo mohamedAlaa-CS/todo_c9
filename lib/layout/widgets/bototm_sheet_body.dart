@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/shared/components/default_text_field.dart';
@@ -6,6 +7,8 @@ import '../../models/task_model.dart';
 import '../../shared/network/firebase/firebase_function.dart';
 
 class BototmSheetBody extends StatefulWidget {
+  const BototmSheetBody({super.key});
+
   @override
   State<BototmSheetBody> createState() => _BototmSheetBodyState();
 }
@@ -14,6 +17,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  var selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
@@ -89,7 +93,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                   timeBiker(context);
                 },
                 child: Text(
-                  '30 april 2023',
+                  selectedDate.toString().substring(0,10),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                       fontSize: 18,
@@ -103,6 +107,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       TaskModel taskModel = TaskModel(
+                        userId: FirebaseAuth.instance.currentUser!.uid,
                         title: titleController.text,
                         description: descriptionController.text,
                         isDone: false,

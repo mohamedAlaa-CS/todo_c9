@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/models/user_model.dart';
 
 class FirebaseFunction {
   static CollectionReference<TaskModel> getCollection() {
@@ -20,7 +23,7 @@ class FirebaseFunction {
   }
 
   static Stream<QuerySnapshot<TaskModel>> getData() {
-    return getCollection().orderBy('dateTime').snapshots();
+    return getCollection().where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
   }
 
   static Future<void> deletTask(String? id) {
@@ -34,5 +37,55 @@ class FirebaseFunction {
     return getCollection()
         .doc(id)
         .update({'title': title, 'description': description});
+  }
+
+  static Future<void> signUp(
+      String email, String password, Function onComplete, context,String name ,int age) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+       UserModel userModel = UserModel(name:name ,age: age,email:email , );
+            var collection= getUserCollection();
+            var doc = collection.doc(credential.user!.uid);
+            userModel.id = credential.user!.uid;
+            doc.set(userModel)
+          .then((value) {
+           
+        onComplete();
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('The password provided is too weak.',style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),backgroundColor: Colors.blue,));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('The account already exists for that email.',style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),backgroundColor: Colors.blue,));
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<void> sigIn(
+      String email, String password, Function onComplete, context) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        onComplete();
+      });
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Wrong Email or Password..',style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),backgroundColor: Colors.blue,));
+    }
+  }
+ static CollectionReference<UserModel> getUserCollection(){
+    return FirebaseFirestore.instance.collection(UserModel.collectionName)
+    .withConverter<UserModel>(
+      fromFirestore: (snapshot, _)=>UserModel.fromFirestore(snapshot.data()!),
+       toFirestore: (usermodel, option)=>usermodel.toFireStore());
   }
 }

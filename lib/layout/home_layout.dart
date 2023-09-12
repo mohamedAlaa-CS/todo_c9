@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/views/settings/settings.dart';
-import 'package:todo_app/views/tasks/tasks_view.dart';
+import 'package:todo_app/screens/settings/settings.dart';
+import 'package:todo_app/screens/tasks/tasks_view.dart';
 
 import 'widgets/bototm_sheet_body.dart';
 

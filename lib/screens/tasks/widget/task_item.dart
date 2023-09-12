@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/core/style/my_theme.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
-import 'package:todo_app/views/update/update_view.dart';
+import 'package:todo_app/screens/update/update_view.dart';
 
 import '../../../models/task_model.dart';
 

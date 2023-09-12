@@ -5,8 +5,10 @@ class TaskModel {
   String? description;
   DateTime? dateTime;
   bool? isDone;
+  String userId;
 
   TaskModel({
+    required this.userId,
     this.id,
     this.title,
     this.description,
@@ -21,6 +23,7 @@ class TaskModel {
           description: json['description'],
           dateTime: DateTime.fromMillisecondsSinceEpoch(json['dateTime']),
           isDone: json['isDone'],
+          userId: json['userId']
         );
 
   Map<String, dynamic> toFireStore() {
@@ -30,6 +33,7 @@ class TaskModel {
       'description': description,
       'dateTime': dateTime?.millisecondsSinceEpoch,
       'isDone': isDone,
+      'userId':userId
     };
 //
   }
