@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/models/user_model.dart';
 
+import '../../../layout/home_layout.dart';
+import '../../../screens/login/login_view.dart';
+
 class FirebaseFunction {
   static CollectionReference<TaskModel> getCollection() {
     return FirebaseFirestore.instance
@@ -22,8 +25,12 @@ class FirebaseFunction {
     doc.set(taskModel);
   }
 
-  static Stream<QuerySnapshot<TaskModel>> getData() {
-    return getCollection().where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
+  static Stream<QuerySnapshot<TaskModel>> getData(DateTime date) {
+    return getCollection()
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('dateTime',
+            isEqualTo: DateUtils.dateOnly(date).millisecondsSinceEpoch)
+        .snapshots();
   }
 
   static Future<void> deletTask(String? id) {
@@ -40,52 +47,74 @@ class FirebaseFunction {
   }
 
   static Future<void> signUp(
-      String email, String password, Function onComplete, context,String name ,int age) async {
+      String email, String password, context, String? name, String? age) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-       UserModel userModel = UserModel(name:name ,age: age,email:email , );
-            var collection= getUserCollection();
-            var doc = collection.doc(credential.user!.uid);
-            userModel.id = credential.user!.uid;
-            doc.set(userModel)
-          .then((value) {
-           
-        onComplete();
-      });
+      UserModel userModel = UserModel(
+        name: name,
+        age: age,
+        email: email,
+      );
+      var collection = getUserCollection();
+      var doc = collection.doc(credential.user!.uid);
+      userModel.id = credential.user!.uid;
+      doc.set(userModel);
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginView.routeName, (route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('The password provided is too weak.',style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),backgroundColor: Colors.blue,));
+          content: Text(
+            'The password provided is too weak.',
+            style: TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.blue,
+        ));
       } else if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('The account already exists for that email.',style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),backgroundColor: Colors.blue,));
+          content: Text(
+            'The account already exists for that email.',
+            style: TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.blue,
+        ));
       }
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 
-  static Future<void> sigIn(
-      String email, String password, Function onComplete, context) async {
+  static Future<void> sigIn(String email, String password, context) async {
     try {
       final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        onComplete();
-      });
+          .signInWithEmailAndPassword(email: email, password: password);
+      Navigator.pushNamedAndRemoveUntil(
+          context, HomeLayoutView.routeName, (route) => false);
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Wrong Email or Password..',style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),backgroundColor: Colors.blue,));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          'Wrong Email or Password..',
+          style: TextStyle(
+              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blue,
+      ));
+      print(e.toString());
     }
   }
- static CollectionReference<UserModel> getUserCollection(){
-    return FirebaseFirestore.instance.collection(UserModel.collectionName)
-    .withConverter<UserModel>(
-      fromFirestore: (snapshot, _)=>UserModel.fromFirestore(snapshot.data()!),
-       toFirestore: (usermodel, option)=>usermodel.toFireStore());
+
+  static CollectionReference<UserModel> getUserCollection() {
+    return FirebaseFirestore.instance
+        .collection(UserModel.collectionName)
+        .withConverter<UserModel>(
+            fromFirestore: (snapshot, _) =>
+                UserModel.fromFirestore(snapshot.data()!),
+            toFirestore: (usermodel, option) => usermodel.toFireStore());
   }
 }

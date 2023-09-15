@@ -132,9 +132,7 @@ class SignupView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16))),
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                        FirebaseFunction.signUp(emailController.text, passwordController.text,(){
-                         Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
-                        },context,nameController.text,int.parse( ageController.text));
+                        FirebaseFunction.signUp(emailController.text, passwordController.text,context,nameController.text, ageController.text );
                         }
                       },
                       child: const Text(

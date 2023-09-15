@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/style/my_theme.dart';
@@ -19,12 +20,33 @@ void main() async {
   );
 
   runApp(ChangeNotifierProvider<MyProvider>(
-    create: (BuildContext context) => MyProvider(),
-    child: const MyApp()));
+      create: (BuildContext context) => MyProvider()
+        ..getTheme()
+        ..getUser(),
+      child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('------------------User is currently signed out!');
+      } else {
+        print(
+            '------------------User is signed in! ${FirebaseAuth.instance.currentUser?.email}');
+      }
+    });
+
+    super.initState();
+  }
 
   // This widget is the root of your application.
   @override
@@ -34,14 +56,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
-      themeMode:provider.themeMode ,
+      themeMode: provider.themeMode,
       initialRoute: SplashView.routeName,
       routes: {
         SplashView.routeName: (context) => SplashView(),
         HomeLayoutView.routeName: (context) => HomeLayoutView(),
-        UpdateView.routeName :(context)=> UpdateView(),
-        LoginView.routeName :(context) => LoginView(),
-        SignupView.routeName :(context) => SignupView()
+        UpdateView.routeName: (context) => UpdateView(),
+        LoginView.routeName: (context) => LoginView(),
+        SignupView.routeName: (context) => SignupView()
       },
     );
   }

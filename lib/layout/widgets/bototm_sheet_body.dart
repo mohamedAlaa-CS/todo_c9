@@ -90,7 +90,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
               ),
               InkWell(
                 onTap: () {
-                  timeBiker(context);
+                  timeBiker();
                 },
                 child: Text(
                   selectedDate.toString().substring(0,10),
@@ -111,7 +111,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                         title: titleController.text,
                         description: descriptionController.text,
                         isDone: false,
-                        dateTime: DateTime.now(),
+                        dateTime: DateUtils.dateOnly(selectedDate),
                       );
                       FirebaseFunction.addTask(taskModel);
                       Navigator.of(context).pop();
@@ -131,11 +131,18 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
     );
   }
 
-  timeBiker(context) {
-    showDatePicker(
+  timeBiker()async {
+   DateTime? chooseDate = await showDatePicker(
         context: context,
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 364)),
-        initialDate: DateTime.now());
+        lastDate: DateTime.now().add(const Duration(days: 365)),
+        initialDate: selectedDate);
+        if(chooseDate != null ){
+           selectedDate = chooseDate;
+        setState(() {
+          
+        });
+        }
+        
   }
 }

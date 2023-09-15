@@ -3,9 +3,9 @@ class UserModel
   static const String collectionName = 'users';
   String? id;
   String? name;
-  int? age;
+  String? age;
   String? email;
-  UserModel({this.id = '', this.name, this.age= 0, this.email});
+  UserModel({this.id = '', this.name, this.age, this.email});
  
 UserModel.fromFirestore(Map <String, dynamic>json):this(
   id:json['id'],
