@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import 'package:todo_app/screens/login/login_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class SignupView extends StatelessWidget {
@@ -16,6 +17,7 @@ class SignupView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+     var localization =AppLocalizations.of(context)!;
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -33,9 +35,9 @@ class SignupView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'Sigup',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                   Text(
+                    localization.signup,
+                    style:const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 20,
@@ -44,7 +46,7 @@ class SignupView extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                     controller: nameController,
                     decoration: InputDecoration(
-                      hintText: 'Name',
+                      hintText: localization.name,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(
@@ -63,7 +65,7 @@ class SignupView extends StatelessWidget {
                     controller: ageController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Age',
+                      hintText: localization.age,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(
@@ -87,7 +89,7 @@ class SignupView extends StatelessWidget {
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      hintText: localization.email,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(
@@ -115,7 +117,7 @@ class SignupView extends StatelessWidget {
                       return null;
                     },
                     decoration: InputDecoration(
-                        hintText: 'Password',
+                        hintText: localization.password,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
@@ -135,9 +137,9 @@ class SignupView extends StatelessWidget {
                         FirebaseFunction.signUp(emailController.text, passwordController.text,context,nameController.text, ageController.text );
                         }
                       },
-                      child: const Text(
-                        'Signup',
-                        style: TextStyle(
+                      child:  Text(
+                       localization.signup ,
+                        style:const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -145,18 +147,18 @@ class SignupView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Don't have an account ? ",
-                        style: TextStyle(fontSize: 18),
+                       Text(
+                        localization.have,
+                        style:const TextStyle(fontSize: 18),
                       ),
                       TextButton(
                           onPressed: () {
                             Navigator.of(context)
                                 .pushNamed(LoginView.routeName);
                           },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
+                          child:  Text(
+                            localization.login,
+                            style:const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ))
                     ],

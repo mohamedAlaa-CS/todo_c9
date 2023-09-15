@@ -11,7 +11,8 @@ import 'layout/home_layout.dart';
 import 'screens/splash/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,9 +21,9 @@ void main() async {
   );
 
   runApp(ChangeNotifierProvider<MyProvider>(
-      create: (BuildContext context) => MyProvider()
+      create: (BuildContext context) => MyProvider()..getUser()
         ..getTheme()
-        ..getUser(),
+        ..getLanguage(),
       child: const MyApp()));
 }
 
@@ -54,6 +55,17 @@ class _MyAppState extends State<MyApp> {
     var provider = Provider.of<MyProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const[
+        AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales:const [
+    Locale('en'), // English
+    Locale('ar'), // Arabic
+  ],
+  locale: Locale(provider.language),
       theme: Apptheme.lightTheme,
       darkTheme: Apptheme.darkTheme,
       themeMode: provider.themeMode,

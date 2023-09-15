@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import 'package:todo_app/screens/signup/signup.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatelessWidget {
@@ -16,6 +17,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var localization = AppLocalizations.of(context);
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -33,9 +35,10 @@ class LoginView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Text(
+                    localization!.login,
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 20,
@@ -50,7 +53,7 @@ class LoginView extends StatelessWidget {
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      hintText: localization.email,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(
@@ -78,7 +81,7 @@ class LoginView extends StatelessWidget {
                       return null;
                     },
                     decoration: InputDecoration(
-                        hintText: 'Password',
+                        hintText: localization.password,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
@@ -97,12 +100,12 @@ class LoginView extends StatelessWidget {
                         if (formKey.currentState!.validate()) {
                           FirebaseFunction.sigIn(emailController.text,
                               passwordController.text, context);
-                          provider.saveUser();
+                          provider.saveUser(true);
                         }
                       },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
+                      child: Text(
+                        localization.login,
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -110,18 +113,18 @@ class LoginView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Don't have an account ? ",
-                        style: TextStyle(fontSize: 18),
+                      Text(
+                        localization.havenot,
+                        style: const TextStyle(fontSize: 18),
                       ),
                       TextButton(
                           onPressed: () {
                             Navigator.of(context)
                                 .pushNamed(SignupView.routeName);
                           },
-                          child: const Text(
-                            'create account',
-                            style: TextStyle(
+                          child: Text(
+                            localization.create,
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ))
                     ],

@@ -5,6 +5,7 @@ import 'package:todo_app/shared/components/default_text_field.dart';
 
 import '../../models/task_model.dart';
 import '../../shared/network/firebase/firebase_function.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BototmSheetBody extends StatefulWidget {
   const BototmSheetBody({super.key});
@@ -21,6 +22,7 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
+    var localization = AppLocalizations.of(context)!;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -36,14 +38,14 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Add new Task',
+                localization.addNewTask,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                     fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: mediaQuery.height / 70),
               Text(
-                'title',
+                localization.title,
                 textAlign: TextAlign.start,
                 style: GoogleFonts.poppins(
                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -60,10 +62,10 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                       return null;
                     }
                   },
-                  hitText: 'add your title'),
+                  hitText: localization.addTitle),
               SizedBox(height: mediaQuery.height / 70),
               Text(
-                'description',
+                localization.description,
                 textAlign: TextAlign.start,
                 style: GoogleFonts.poppins(
                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -78,12 +80,12 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                     return null;
                   }
                 },
-                hitText: 'add your description',
+                hitText: localization.addDescription,
                 maxLines: 4,
               ),
               SizedBox(height: mediaQuery.height / 70),
               Text(
-                'select time',
+               localization.selectDate,
                 textAlign: TextAlign.start,
                 style: GoogleFonts.poppins(
                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -119,9 +121,9 @@ class _BototmSheetBodyState extends State<BototmSheetBody> {
                     }
                   },
                   
-                  child: const Text(
-                    'Add task',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  child:  Text(
+                    localization.addNewTask,
+                    style:const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )),
                   SizedBox(height: mediaQuery.height/50,)
             ],

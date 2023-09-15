@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +8,9 @@ import 'package:todo_app/screens/login/login_view.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import '../../shared/components/app_bar.dart';
 import 'widget/task_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TasksView extends StatefulWidget {
-
   TasksView({super.key});
 
   @override
@@ -20,54 +18,50 @@ class TasksView extends StatefulWidget {
 }
 
 class _TasksViewState extends State<TasksView> {
-var selectedDate = DateTime.now();
+  var selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    var theme =Theme.of(context);
-    var mediaquery =MediaQuery.of(context).size;
+    var theme = Theme.of(context);
+    var mediaquery = MediaQuery.of(context).size;
     var provider = Provider.of<MyProvider>(context);
+    var localization = AppLocalizations.of(context)!;
     return Column(
       children: [
-      Stack(
-        children: [
-          const CustomAppBar(title: 'To Do List'),
-          Positioned(
-            top: mediaquery.height/13,
-            right: mediaquery.width/20,
-            child: IconButton(onPressed: ()async{
-              await FirebaseAuth.instance.signOut();
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pushReplacementNamed(LoginView.routeName);
-            }, icon: Icon(Icons.logout,size: 30,
-            color: provider.themeMode == ThemeMode.light ? Colors.white : Colors.black,
-            ))),
-      
-          Padding(
-            padding:  EdgeInsets.only(top:mediaquery.height/7 ),
-            child: CalendarTimeline(
-            initialDate: selectedDate,
-            firstDate: DateTime.now().subtract(const Duration(days: 30)),
-            lastDate: DateTime.now().add(const Duration(days: 360)),
-            onDateSelected: (date) {
-              print(date);
-              selectedDate = date;
-              setState(() {
-                
-              });
-            },
-            leftMargin: 20,
-            monthColor:provider.themeMode ==ThemeMode.light ? Colors.black :Colors.white ,
-            dayColor: provider.themeMode ==ThemeMode.light ? Colors.black :Colors.white,
-            activeDayColor:provider.themeMode ==ThemeMode.light ? Apptheme.primaryColor :Colors.white ,
-            activeBackgroundDayColor: theme.canvasColor,
-            dotsColor: const Color(0xFF333A47),
-            locale: 'en_ISO',
-                  ),
-          ),
-        ],
-      ),
-       SizedBox(height: mediaquery.height/65,), 
+        Stack(
+          children: [
+            CustomAppBar(title: localization.toDoList),
+            Padding(
+              padding: EdgeInsets.only(top: mediaquery.height / 7),
+              child: CalendarTimeline(
+                initialDate: selectedDate,
+                firstDate: DateTime.now().subtract(const Duration(days: 30)),
+                lastDate: DateTime.now().add(const Duration(days: 360)),
+                onDateSelected: (date) {
+                  print(date);
+                  selectedDate = date;
+                  setState(() {});
+                },
+                leftMargin: 20,
+                monthColor: provider.themeMode == ThemeMode.light
+                    ? Colors.black
+                    : Colors.white,
+                dayColor: provider.themeMode == ThemeMode.light
+                    ? Colors.black
+                    : Colors.white,
+                activeDayColor: provider.themeMode == ThemeMode.light
+                    ? Apptheme.primaryColor
+                    : Colors.white,
+                activeBackgroundDayColor: theme.canvasColor,
+                dotsColor: const Color(0xFF333A47),
+                locale: provider.language == 'ar' ? 'ar' : 'en_ISO',
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: mediaquery.height / 65,
+        ),
         StreamBuilder(
             stream: FirebaseFunction.getData(selectedDate),
             builder: (context, snapshot) {
@@ -78,13 +72,15 @@ var selectedDate = DateTime.now();
               }
               var tasks =
                   snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
-                  if(tasks.isEmpty){
-                    return const Text('NO TASKS',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),);
-                    
-                  }
+              if (tasks.isEmpty) {
+                return const Text(
+                  'NO TASKS',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                );
+              }
               return Expanded(
                   child: ListView.builder(
-                    physics:const BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10),
                       itemBuilder: (context, index) =>
                           TaskItem(taskModel: tasks[index]),

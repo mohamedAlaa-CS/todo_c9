@@ -1,9 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProvider extends ChangeNotifier {
+  
   ThemeMode themeMode = ThemeMode.light;
+  String language = "en";
   bool user = false;
 
   changeMode(ThemeMode theme) {
@@ -24,8 +25,25 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveUser() async {
-    FirebaseAuth.instance.currentUser == null ? user = false : user = true;
+  changeLanguage(String lang) {
+    saveLanguage(lang);
+    language = lang;
+    notifyListeners();
+  }
+
+  saveLanguage(String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('language', value);
+    notifyListeners();
+  }
+
+  getLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    language = prefs.getString('language') ?? 'en';
+  }
+
+  saveUser(bool value) async {
+    user = value;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('user', user);
     notifyListeners();

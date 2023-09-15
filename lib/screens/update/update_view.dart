@@ -4,6 +4,7 @@ import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/shared/components/app_bar.dart';
 import 'package:todo_app/shared/components/default_text_field.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class UpdateView extends StatelessWidget {
@@ -15,13 +16,14 @@ class UpdateView extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
+    var localization = AppLocalizations.of(context)!;
     var data = ModalRoute.of(context)!.settings.arguments as TaskModel;
     titleController.text = data.title!;
     descriptionController.text = data.description!;
     return Scaffold(
       body: Stack(
         children: [
-          const CustomAppBar(title: 'To Do List'),
+          CustomAppBar(title: localization.toDoList),
           Center(
             child: Container(
               margin: EdgeInsets.only(
@@ -37,20 +39,20 @@ class UpdateView extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 24),
                 child: SingleChildScrollView(
-                  physics:const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Edit Task',
+                      Text(localization.editTask,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       SizedBox(
                         height: mediaQuery.height / 24,
                       ),
-                      const Text('title',
-                          style: TextStyle(
+                      Text(localization.title,
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       SizedBox(
                         height: mediaQuery.height / 30,
@@ -61,8 +63,8 @@ class UpdateView extends StatelessWidget {
                       SizedBox(
                         height: mediaQuery.height / 40,
                       ),
-                      const Text('description',
-                          style: TextStyle(
+                      Text(localization.description,
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       SizedBox(
                         height: mediaQuery.height / 30,
@@ -73,10 +75,10 @@ class UpdateView extends StatelessWidget {
                       SizedBox(
                         height: mediaQuery.height / 40,
                       ),
-                      const Text(
-                        'Selected time',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      Text(
+                        localization.selectDate,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: mediaQuery.height / 30,
@@ -104,9 +106,9 @@ class UpdateView extends StatelessWidget {
                             print('somrthing error.. $erroe');
                           });
                         },
-                        child: const Text(
-                          'Save Change',
-                          style: TextStyle(
+                        child: Text(
+                          localization.saveChange,
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),

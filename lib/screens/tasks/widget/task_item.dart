@@ -29,9 +29,13 @@ class TaskItem extends StatelessWidget {
           extentRatio: 0.2,
           children: [
             SlidableAction(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  bottomLeft: Radius.circular(16)),
+              borderRadius: provider.language == 'en'
+                  ? const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(16))
+                  : const BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      bottomRight: Radius.circular(16)),
               flex: 2,
               onPressed: (context) {
                 Navigator.of(context)
@@ -49,9 +53,13 @@ class TaskItem extends StatelessWidget {
             extentRatio: 0.2,
             children: [
               SlidableAction(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(16),
-                    bottomRight: Radius.circular(16)),
+                borderRadius: provider.language == 'en'
+                    ? const BorderRadius.only(
+                        topRight: Radius.circular(16),
+                        bottomRight: Radius.circular(16))
+                    : const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        bottomLeft: Radius.circular(16)),
                 flex: 2,
                 onPressed: (context) {
                   FirebaseFunction.deletTask(taskModel.id);
@@ -64,7 +72,9 @@ class TaskItem extends StatelessWidget {
             ]),
         child: Container(
           //margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          padding:  EdgeInsets.symmetric(horizontal: mediaQuery.width/25, vertical: mediaQuery.width/24),
+          padding: EdgeInsets.symmetric(
+              horizontal: mediaQuery.width / 25,
+              vertical: mediaQuery.width / 24),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: theme.canvasColor,
@@ -73,14 +83,14 @@ class TaskItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: mediaQuery.height/10,
-                width: mediaQuery.width/100,
+                height: mediaQuery.height / 10,
+                width: mediaQuery.width / 100,
                 decoration: BoxDecoration(
                     color: Apptheme.primaryColor,
                     borderRadius: BorderRadius.circular(4)),
               ),
-               SizedBox(
-                width:mediaQuery.width/25,
+              SizedBox(
+                width: mediaQuery.width / 25,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,25 +114,25 @@ class TaskItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                       Icon(
-                      color:provider.themeMode ==ThemeMode.light ? Colors.black :Colors.white  ,
+                      Icon(
+                        color: provider.themeMode == ThemeMode.light
+                            ? Colors.black
+                            : Colors.white,
                         Icons.timer_outlined,
                         size: 20,
                       ),
                       const SizedBox(
                         width: 4.8,
                       ),
-                      Text(
-                        '10:30 am',
-                        style:theme.textTheme.bodyMedium
-                      ),
+                      Text('10:30 am', style: theme.textTheme.bodyMedium),
                     ],
                   ),
                 ],
               ),
               const Spacer(),
               Container(
-                padding:  EdgeInsets.symmetric(horizontal: mediaQuery.width/24),
+                padding:
+                    EdgeInsets.symmetric(horizontal: mediaQuery.width / 24),
                 decoration: BoxDecoration(
                   color: Apptheme.primaryColor,
                   borderRadius: BorderRadius.circular(12.0),
