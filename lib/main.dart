@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/style/my_theme.dart';
@@ -19,7 +20,18 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+const fatalError = true;
+  // Non-async exceptions
+  FlutterError.onError = (errorDetails) {
+    if (fatalError) {
+      // If you want to record a "fatal" exception
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      // ignore: dead_code
+    } else {
+      // If you want to record a "non-fatal" exception
+      FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+    }
+  };
   runApp(ChangeNotifierProvider<MyProvider>(
       create: (BuildContext context) => MyProvider()..getUser()
         ..getTheme()

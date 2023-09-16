@@ -1,17 +1,15 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/style/my_theme.dart';
 import 'package:todo_app/core/provider/my_provider.dart';
-import 'package:todo_app/screens/login/login_view.dart';
 import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import '../../shared/components/app_bar.dart';
 import 'widget/task_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TasksView extends StatefulWidget {
-  TasksView({super.key});
+  const TasksView({super.key});
 
   @override
   State<TasksView> createState() => _TasksViewState();
@@ -38,6 +36,7 @@ class _TasksViewState extends State<TasksView> {
                 firstDate: DateTime.now().subtract(const Duration(days: 30)),
                 lastDate: DateTime.now().add(const Duration(days: 360)),
                 onDateSelected: (date) {
+                  // ignore: avoid_print
                   print(date);
                   selectedDate = date;
                   setState(() {});
