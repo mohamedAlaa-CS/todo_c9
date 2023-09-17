@@ -9,9 +9,15 @@ import 'package:todo_app/screens/update/update_view.dart';
 
 import '../../../models/task_model.dart';
 
-class TaskItem extends StatelessWidget {
+class TaskItem extends StatefulWidget {
   const TaskItem({required this.taskModel, super.key});
   final TaskModel taskModel;
+
+  @override
+  State<TaskItem> createState() => _TaskItemState();
+}
+
+class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
@@ -38,8 +44,8 @@ class TaskItem extends StatelessWidget {
                       bottomRight: Radius.circular(16)),
               flex: 2,
               onPressed: (context) {
-                Navigator.of(context)
-                    .pushNamed(UpdateView.routeName, arguments: taskModel);
+                Navigator.of(context).pushNamed(UpdateView.routeName,
+                    arguments: widget.taskModel);
               },
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
@@ -62,7 +68,7 @@ class TaskItem extends StatelessWidget {
                         bottomLeft: Radius.circular(16)),
                 flex: 2,
                 onPressed: (context) {
-                  FirebaseFunction.deletTask(taskModel.id);
+                  FirebaseFunction.deletTask(widget.taskModel.id);
                 },
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
@@ -86,7 +92,9 @@ class TaskItem extends StatelessWidget {
                 height: mediaQuery.height / 10,
                 width: mediaQuery.width / 100,
                 decoration: BoxDecoration(
-                    color: Apptheme.primaryColor,
+                    color: widget.taskModel.isDone == false
+                        ? Apptheme.primaryColor
+                        : Colors.green,
                     borderRadius: BorderRadius.circular(4)),
               ),
               SizedBox(
@@ -98,17 +106,19 @@ class TaskItem extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.64,
                     child: Text(
-                      taskModel.title!,
+                      widget.taskModel.title!,
                       style: GoogleFonts.poppins(
                           fontSize: 17,
-                          color: Apptheme.primaryColor,
+                          color: widget.taskModel.isDone == false
+                              ? Apptheme.primaryColor
+                              : Colors.green,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.7,
                     child: Text(
-                      taskModel.description!,
+                      widget.taskModel.description!,
                       style: theme.textTheme.bodyLarge,
                     ),
                   ),
@@ -130,19 +140,32 @@ class TaskItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: mediaQuery.width / 24),
-                decoration: BoxDecoration(
-                  color: Apptheme.primaryColor,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: const Icon(
-                  Icons.check,
-                  size: 40,
-                  color: Colors.white,
-                ),
-              ),
+              InkWell(
+                  onTap: () {
+                    FirebaseFunction.updateIsDone(widget.taskModel);
+                    setState(() {});
+                  },
+                  child: widget.taskModel.isDone == false
+                      ? Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: mediaQuery.width / 24),
+                          decoration: BoxDecoration(
+                            color: Apptheme.primaryColor,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: const Icon(
+                            Icons.check,
+                            size: 40,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text(
+                          'Done !',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green),
+                        )),
             ],
           ),
         ),

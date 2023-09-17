@@ -37,6 +37,12 @@ class FirebaseFunction {
     return getCollection().doc(id).delete();
   }
 
+  static Future<void> updateIsDone(TaskModel taskModel) {
+    return getCollection()
+        .doc(taskModel.id)
+        .update({'isDone': !taskModel.isDone!});
+  }
+
   static Future<void> updateTask({required TaskModel taskModel}) {
     return getCollection().doc(taskModel.id).update(taskModel.toFireStore());
   }
