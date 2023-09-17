@@ -7,19 +7,21 @@ import 'package:todo_app/shared/network/firebase/firebase_function.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
-class UpdateView extends StatelessWidget {
+class UpdateView extends StatefulWidget {
   static const String routeName = 'update_View';
   UpdateView({super.key});
-  var titleController = TextEditingController();
-  var descriptionController = TextEditingController();
+
+  @override
+  State<UpdateView> createState() => _UpdateViewState();
+}
+
+class _UpdateViewState extends State<UpdateView> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var localization = AppLocalizations.of(context)!;
     var data = ModalRoute.of(context)!.settings.arguments as TaskModel;
-    titleController.text = data.title!;
-    descriptionController.text = data.description!;
     return Scaffold(
       body: Stack(
         children: [
@@ -58,7 +60,10 @@ class UpdateView extends StatelessWidget {
                         height: mediaQuery.height / 30,
                       ),
                       CustomTextField(
-                        textController: titleController,
+                        initialValue: data.title,
+                        onChanged: (value) {
+                          data.title = value;
+                        },
                       ),
                       SizedBox(
                         height: mediaQuery.height / 40,
@@ -70,7 +75,10 @@ class UpdateView extends StatelessWidget {
                         height: mediaQuery.height / 30,
                       ),
                       CustomTextField(
-                        textController: descriptionController,
+                        initialValue: data.description,
+                        onChanged: (value) {
+                          data.description = value;
+                        },
                       ),
                       SizedBox(
                         height: mediaQuery.height / 40,
@@ -83,9 +91,23 @@ class UpdateView extends StatelessWidget {
                       SizedBox(
                         height: mediaQuery.height / 30,
                       ),
-                      const Text(
-                        '27-6-2023',
-                        textAlign: TextAlign.center,
+                      InkWell(
+                        onTap: () async {
+                          DateTime? chooseDate = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate:
+                                  DateTime.now().add(const Duration(days: 365)),
+                              initialDate: data.dateTime!);
+                          if (chooseDate != null) {
+                            data.dateTime = chooseDate;
+                            setState(() {});
+                          }
+                        },
+                        child: Text(
+                          data.dateTime.toString().substring(0, 10),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       SizedBox(
                         height: mediaQuery.height / 20,
@@ -97,10 +119,7 @@ class UpdateView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16)),
                         ),
                         onPressed: () {
-                          FirebaseFunction.updateTask(
-                                  id: data.id!,
-                                  title: titleController.text,
-                                  description: descriptionController.text)
+                          FirebaseFunction.updateTask(taskModel: data)
                               .then((value) => Navigator.of(context).pop())
                               .catchError((erroe) {
                             print('somrthing error.. $erroe');

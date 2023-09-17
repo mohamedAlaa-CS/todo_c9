@@ -37,13 +37,8 @@ class FirebaseFunction {
     return getCollection().doc(id).delete();
   }
 
-  static Future<void> updateTask(
-      {required String id,
-      required String title,
-      required String description}) {
-    return getCollection()
-        .doc(id)
-        .update({'title': title, 'description': description});
+  static Future<void> updateTask({required TaskModel taskModel}) {
+    return getCollection().doc(taskModel.id).update(taskModel.toFireStore());
   }
 
   static Future<void> signUp(
