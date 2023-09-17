@@ -53,7 +53,10 @@ class _TasksViewState extends State<TasksView> {
                     : Colors.white,
                 activeBackgroundDayColor: theme.canvasColor,
                 dotsColor: const Color(0xFF333A47),
-                locale: provider.language == 'ar' ? 'ar' : 'en_ISO',
+                //! for ios good 
+               // locale: provider.language == 'ar' ? 'ar' : 'en_ISO',
+               //!for android not good
+                locale: 'en_ISO',
               ),
             ),
           ],
