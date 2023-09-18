@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class FirebaseFunction {
 
   static Stream<QuerySnapshot<TaskModel>> getData(DateTime date) {
     return getCollection()
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
         .where('dateTime',
             isEqualTo: DateUtils.dateOnly(date).millisecondsSinceEpoch)
         .snapshots();
@@ -64,8 +65,17 @@ class FirebaseFunction {
       var doc = collection.doc(credential.user!.uid);
       userModel.id = credential.user!.uid;
       doc.set(userModel);
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginView.routeName, (route) => false);
+      FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      aweSomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          text: 'Success',
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.pushNamedAndRemoveUntil(
+                context, LoginView.routeName, (route) => false);
+          },
+          title: 'Success');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -93,19 +103,24 @@ class FirebaseFunction {
 
   static Future<void> sigIn(String email, String password, context) async {
     try {
-      final credential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pushNamedAndRemoveUntil(
-          context, HomeLayoutView.routeName, (route) => false);
+      FirebaseAuth.instance.currentUser!.emailVerified
+          ? Navigator.pushNamedAndRemoveUntil(
+              context, HomeLayoutView.routeName, (route) => false)
+          : aweSomeDialog(
+              context: context,
+              dialogType: DialogType.warning,
+              text: 'go to gmail and verivied your email..',
+              onPressed: () {},
+              title: 'Warning');
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          'Wrong Email or Password..',
-          style: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.blue,
-      ));
+      aweSomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          text: 'Wrong Email or Password..',
+          onPressed: () {},
+          title: 'Error');
       print(e.toString());
     }
   }
@@ -117,5 +132,46 @@ class FirebaseFunction {
             fromFirestore: (snapshot, _) =>
                 UserModel.fromFirestore(snapshot.data()!),
             toFirestore: (usermodel, option) => usermodel.toFireStore());
+  }
+
+  static void showSnackBar(
+    context,
+    String text,
+  ) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        text,
+        style: const TextStyle(
+            fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+      backgroundColor: Colors.blue,
+    ));
+  }
+
+  static void aweSomeDialog(
+      {context,
+      required dialogType,
+      required String text,
+      void Function()? onPressed,
+      required String title}) {
+    AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: dialogType,
+            title: title,
+            titleTextStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+            descTextStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: 18,
+                fontWeight: FontWeight.w500),
+            desc: text,
+            btnOkColor:
+                dialogType == DialogType.success ? Colors.blue : Colors.red,
+            btnOkOnPress: onPressed,
+            dismissOnTouchOutside: false)
+        .show();
   }
 }

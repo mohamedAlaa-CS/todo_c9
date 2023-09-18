@@ -117,7 +117,7 @@ class _LoginViewState extends State<LoginView> {
                             await FirebaseFunction.sigIn(emailController.text,
                                 passwordController.text, context);
                             provider.saveUser(true);
-          
+
                             setState(() {
                               isLoading = false;
                             });
